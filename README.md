@@ -22,7 +22,7 @@ let users = await resultAsync(
 	db.user.findMany()
 );
 ```
-This will make the ```users``` variable be of type ```T | Error```, meaning it is a union can be either a value or an error (a union of types).
+This will make the ```users``` variable be of type ```T | Error```, meaning it can be either a value or an error (a union of types).
 
 Then check for error in the variable with ```hasError```, and then handle the error:
 ```typescript
