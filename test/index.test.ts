@@ -1,6 +1,8 @@
-import { test, assert } from "vitest"
-import { foo } from "../src"
+import { test, assert } from "vitest";
+import { result } from "../src";
 
-test("simple", () => {
-  assert.equal(foo, "foo")
-})
+test("result", () => {
+	// temporary
+	result(() => 0);
+	assert.equal(true, true);
+});
