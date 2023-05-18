@@ -8,8 +8,6 @@ on:
 
 jobs:
   test:
-    if: "!contains(github.event.head_commit.message, 'skip-ci')"
-
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -49,14 +47,20 @@ jobs:
         run: pnpm test
 
   release:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18.x]
+
+    runs-on: ${{matrix.os}}
+
     needs: ["test"]
-    if: "!contains(github.event.head_commit.message, 'skip-release') && !contains(github.event.head_commit.message, 'skip-ci') && github.event_name != 'pull_request'"
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: ${{matrix.os}}
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v2
         env:
@@ -71,6 +75,19 @@ jobs:
       - run: npm i -g pnpm
       - run: pnpm i
       - run: pnpm dlx semantic-release@20 --branches main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  release2:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          semantic_version: 19.0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
