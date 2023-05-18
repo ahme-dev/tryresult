@@ -19,7 +19,7 @@ Wrap your async function with ```resultAsync```:
 ```typescript
 let users = await resultAsync(
 	// get a list of users from the database
-	const allUsers = await db.user.findMany()
+	db.user.findMany()
 );
 ```
 This will make the ```users``` variable be of type ```T | Error```, meaning it is a union can be either a value or an error (a union of types).
