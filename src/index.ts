@@ -15,8 +15,8 @@ export async function resultAll<T>(func: () => T): Promise<T | Error> {
 // then returns either the function's returned or the error
 export async function resultAsync<T>(promise: Promise<T>): Promise<T | Error> {
 	try {
-		const data = await promise;
-		return data;
+		const ok = await promise;
+		return ok;
 	} catch (err) {
 		return err as Error;
 	}
