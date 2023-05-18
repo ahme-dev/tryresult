@@ -1,8 +1,8 @@
 import { test, assert } from "vitest";
-import { result } from "../src";
+import { resultAll } from "../src";
 
 test("result", () => {
 	// temporary
-	result(() => 0);
+	resultAll(() => 0);
 	assert.equal(true, true);
 });

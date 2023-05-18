@@ -74,6 +74,7 @@ jobs:
             ${{ runner.os }}-
       - run: npm i -g pnpm
       - run: pnpm i
+      - run: pnpm run prepublishOnly
       - run: pnpm dlx semantic-release@20 --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
