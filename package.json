@@ -2,6 +2,10 @@
 	"name": "faults",
 	"version": "0.1.0",
 	"description": "A typescript library to get rid of try catches.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ahmeddots/faults.git"
+	},
 	"publishConfig": {
 		"access": "public"
 	},
