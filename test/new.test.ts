@@ -1,5 +1,5 @@
 import { test, assert } from "vitest";
-import { tryAsync, trySync } from "../src/alternative";
+import { tryAsync, trySync } from "../src/new";
 import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 
