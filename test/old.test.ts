@@ -1,5 +1,5 @@
 import { test, assert } from "vitest";
-import { resultAll, resultAsync } from "../src";
+import { resultAll, resultAsync } from "../src/old";
 
 test("resultAll :: with function that throws", async () => {
 	const actual = await resultAll(() => {
