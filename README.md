@@ -1,6 +1,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ahmeddots/tryresult/ci.yaml)
 ![NPM bundle size](https://img.shields.io/bundlephobia/min/tryresult?color=royalblue)
-![npm](https://img.shields.io/npm/v/tryresult?label=version&color=blue)
+![npm](https://img.shields.io/npm/v/tryresult?label=version&color=royalblue)
+![npm](https://img.shields.io/npm/dm/tryresult?color=gold)
 
 ### TryResult
 
@@ -15,21 +16,26 @@ npm i tryresult
 
 #### Usage
 
-Wrap your async function with ```resultAsync```:
+Import from the package:
 ```typescript
-let users = await resultAsync(
+import { tryAsync, isError } from "tryresult";
+```
+
+Wrap your async function with ```tryAsync```:
+```typescript
+let users = await tryAsync(
 	// get a list of users from the database
 	db.user.findMany()
 );
 ```
 This will make the ```users``` variable be of type ```T | Error```, meaning it can be either a value or an error (a union of types).
 
-Then check for error in the variable with ```hasError```, and then handle the error:
+Then check for error in the variable with ```isError```, and then handle the error:
 ```typescript
-if (hasError(users)) {
+if (isError(users)) {
 	return "Could not get users from db";
 }
 ```
-This also works as a type guard and all code after the ```hasError``` will consider result's type to be ```T```.
+This is a type guard and all code after the ```isError``` will consider result's type to be ```T```.
 
 To see the library used in a project, checkout out [ahmeddots/oswald](https://github.com/ahmeddots/oswald).
