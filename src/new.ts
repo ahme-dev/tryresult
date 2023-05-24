@@ -4,6 +4,11 @@ export function isError<T>(possibleErr: Result<T>): possibleErr is Error {
 	return possibleErr instanceof Error;
 }
 
+export function okOr<T>(result: Result<T>, orValue: T) {
+	if (isError(result)) return orValue;
+	else return result;
+}
+
 export async function tryAsync<T>(promise: Promise<T>): Promise<Result<T>> {
 	try {
 		const ok = await promise;
