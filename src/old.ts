@@ -1,5 +1,7 @@
 /**
  *
+ * @deprecated this function is deprecated, use the newer trySync
+ *
  * takes in a function, and catches any errors in it
  * then returns either the function's returned or the error
  *
@@ -18,6 +20,9 @@ export async function resultAll<T>(func: () => T): Promise<T | Error> {
 }
 
 /**
+ *
+ *
+ * @deprecated this function is deprecated, use the newer tryAsync
  *
  * Takes in an async function and catches errors in it
  * then returns either the function's returned or the error
@@ -38,6 +43,8 @@ export async function resultAsync<T>(promise: Promise<T>): Promise<T | Error> {
 // used to type guard against results being errors
 
 /**
+ *
+ * @deprecated this function is deprecated, use the newer isError
  *
  * Takes in a value which can possibly be of type error and returns a boolean indicating if it was or not.
  * Also it'll act as a type constraint, making the variable change from union type to the value type, in subsequent code.
