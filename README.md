@@ -3,18 +3,31 @@
 ![npm](https://img.shields.io/npm/v/tryresult?label=version&color=royalblue)
 ![npm](https://img.shields.io/npm/dm/tryresult?color=gold)
 
-### TryResult
+# 📛 TryResult
 
-📛 A typescript library to get rid of try catches, and replace them with result types, inspired by Rust and Go error handling.
+A typescript library to get rid of try catches, and replace them with result types, inspired by Rust and Go error handling. 
 
-#### Install
+Providing simple, easier, and more elegeant error handling, TryResult gives you functions that act as wrappers and catch errors in your own functions.
+
+It also currently provides functions to assert if a result has an error in it, and to use a default value in case of errors.
+ 
+<br>
+
+## Install
 
 As with any npm package:
 ```sh
 npm i tryresult
 ```
 
-#### Usage
+Or use Yarn:
+```sh
+yarn add tryresult
+```
+
+<br>
+
+## Usage
 
 Import from the package:
 ```typescript
@@ -37,5 +50,22 @@ if (isError(users)) {
 }
 ```
 This is a type guard and all code after the ```isError``` will consider result's type to be ```T```.
+
+**[v1.2.x onwards]**
+
+Let's say you're fetching something like a user's role from the db:
+```typescript
+const result = await tryAsync(
+	db.user.find(id).role
+)
+```
+
+If you want to get the value and set a default value in case of error, you can use ``okOr`` on the result:
+```typescript
+const role = okOr(result, "guestUser")
+```
+Now ``role`` is gonna be either the value from the db, or if there was an error, ``"guestUser"``.
+
+<br>
 
 To see the library used in a project, checkout out [ahmeddots/oswald](https://github.com/ahmeddots/oswald).
