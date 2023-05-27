@@ -1,6 +1,12 @@
 {
 	"name": "tryresult",
 	"description": "A typescript library to get rid of try catches.",
+	"keywords": [
+		"typescript",
+		"error-handling",
+		"try-catch",
+		"erros"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ahmeddots/tryresult.git"
