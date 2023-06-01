@@ -56,16 +56,16 @@ export async function tryAsync<T>(promise: Promise<T>): Promise<Result<T>> {
 
 /**
  *
- * Function that takes in a function and catches errors in it.
+ * Function that takes in a callback and catches errors in it.
  * Collects either the value or the error in a **_Result_** type.
  *
- * @param func any function that can throw
+ * @param callback any function that can throw
  * @returns a **_Result_** type
  *
  */
-export function trySync<T>(func: () => T): Result<T> {
+export function trySync<T>(callback: () => T): Result<T> {
 	try {
-		const ok = func();
+		const ok = callback();
 		return ok;
 	} catch (err) {
 		return err as Error;
