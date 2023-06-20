@@ -38,8 +38,11 @@ export function okOr<T>(result: Result<T>, defaultValue: T) {
 
 /**
  *
- * Function that takes in an async function and catches errors in it.
+ * Function that takes in an async function and catches anything thrown in it.
  * Collects either the value or the error in a **_Result_** type.
+ *
+ * If the thrown value is an error, it is caught and returned as an error.
+ * If the thrown value is not an error, it is turned into an error and returned.
  *
  * @param promise a promise or a called async function which returns a promise
  * @returns a promise containing a **_Result_** type
@@ -50,7 +53,8 @@ export async function tryAsync<T>(promise: Promise<T>): Promise<Result<T>> {
 		const ok = await promise;
 		return ok;
 	} catch (err) {
-		return err as Error;
+		if (err instanceof Error) return err;
+		else return new Error(err as any);
 	}
 }
 
@@ -58,6 +62,9 @@ export async function tryAsync<T>(promise: Promise<T>): Promise<Result<T>> {
  *
  * Function that takes in a callback and catches errors in it.
  * Collects either the value or the error in a **_Result_** type.
+ *
+ * If the thrown value is an error, it is caught and returned as an error.
+ * If the thrown value is not an error, it is turned into an error and returned.
  *
  * @param callback any function that can throw
  * @returns a **_Result_** type
@@ -68,6 +75,7 @@ export function trySync<T>(callback: () => T): Result<T> {
 		const ok = callback();
 		return ok;
 	} catch (err) {
-		return err as Error;
+		if (err instanceof Error) return err;
+		else return new Error(err as any);
 	}
 }
