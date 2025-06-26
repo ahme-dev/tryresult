@@ -1,81 +1,107 @@
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ahmeddots/tryresult/ci.yaml)
 ![NPM bundle size](https://img.shields.io/bundlephobia/min/tryresult?color=royalblue)
 ![npm](https://img.shields.io/npm/v/tryresult?label=version&color=royalblue)
 ![npm](https://img.shields.io/npm/dm/tryresult?color=gold)
 
 # 📛 TryResult
 
-A typescript library to get rid of try catches, and replace them with result types, inspired by Rust and Go error handling.
+A tiny typescript library to get rid of try catches, and replace them with result types, inspired by Rust and Go error handling.
 
-![preview picture](./preview.jpg)
+![preview picture](./preview.png)
 
-Providing simple, easier, and more elegeant error handling, TryResult gives you functions that act as wrappers and catch errors in your own functions.
-
-It also currently provides functions to assert if a result has an error in it, and to use a default value in case of errors.
-
-<br>
+Under 400 bytes and with no dependencies, TryResult only provides you with more elegant error handling and gives you functions that act as wrappers and catch errors in your own functions.
 
 ## Install
 
-As with any npm package:
+As with any package, install using your favorite package manager:
 
 ```sh
-npm i tryresult
+pnpm i tryresult
 ```
-
-Or use Yarn:
-
-```sh
-yarn add tryresult
-```
-
-<br>
 
 ## Usage
 
-Import from the package:
+The base functionality of TryResult revolves around the `Result` type, which can either be an `Ok` or an `Err`. You can create these results using the `ok` and `err` functions.
 
-```typescript
-import { tryAsync, isError } from "tryresult";
-```
+```ts
+import { ok, err, Result, isOk, isErr } from "tryresult";
 
-Wrap your async function with `tryAsync`:
+// You can create a Result with a value or an error
 
-```typescript
-let users = await tryAsync(
-	// get a list of users from the database
-	db.user.findMany(),
-);
-```
+const success = ok("Success!"); // Result<string, Error>
+const failure = err(new Error("Something went wrong")); // Result<string, Error>
 
-This will make the `users` variable be of type `T | Error`, meaning it can be either a value or an error (a union of types).
+// You can do typesafe checks of a Result
 
-Then check for error in the variable with `isError`, and then handle the error:
-
-```typescript
-if (isError(users)) {
-	return "Could not get users from db";
+if (isOk(success)) {
+  console.log(success.value); // "Success!"
+}
+if (isErr(failure)) {
+  console.error(failure.error); // Error: Something went wrong
 }
 ```
 
-This is a type guard and all code after the `isError` will consider result's type to be `T`.
+### Wrapping Functions
 
-**[v1.2.x onwards]**
+To do away with try-catch blocks around functions you can't control, you can use wrapping functions to automatically get a `Result` type.
 
-Let's say you're fetching something like a user's role from the db:
+```ts
+import { tryFn, isErr } from "tryresult";
 
-```typescript
-const result = await tryAsync(db.user.find(id).role);
+// Capture throws from async or sync functions
+
+const result = tryFn(() => {
+  return JSON.parse('{"message": "Hello!"}');
+});
+
+const asyncResult = await tryFn(async () => {
+  const response = await fetch('https://api.example.com/data');
+  return response.json();
+});
+
+// As shown above, the `Result` can be checked
+
+if (isErr(result)) {
+  console.error("An error occurred:", result.error); // Guaranteed to be an Error object
+} else {
+  console.log(result.value.message); // "Hello!"
+}
+
 ```
 
-If you want to get the value and set a default value in case of error, you can use `okOr` on the result:
+### Working with Results
 
-```typescript
-const role = okOr(result, "guestUser");
+Several utilities are provided to make working with `Result` types easier, and abstract common functionality.
+
+```ts
+import { match, okOr, okOrThrow, mapOk, mapErr } from "tryresult";
+
+// Match on the Result type to run different logic or return different values based on whether it's Ok or Err
+
+const greeting = match(result, {
+  ok: (value) => `Success: ${value.message}`,
+  err: (error) => `Error: ${error.message}`,
+});
+
+// Ignore errors and use a default value for when you don't care about the error
+
+const data = okOr(result, { message: "Default message" });
+
+// If need be, you can throw an error if the Result is Err
+
+try {
+  const value = okOrThrow(result);
+  console.log(value.message);
+} catch (error) {
+  console.error("Error was thrown:", error);
+}
+
+// Returned values can be transformed/mapped quickly
+
+const uppercased = mapOk(result, (value) => value.toUpperCase());
+
+// The same is true for errors, and several mapping functions are provided
+
+const betterError = mapErr(result, (error) => `Custom error: ${error.message}`);
 ```
 
-Now `role` is gonna be either the value from the db, or if there was an error, `"guestUser"`.
-
-<br>
-
-To see the library used in a project, checkout out [ahmeddots/oswald](https://github.com/ahmeddots/oswald).
+More information can be found as part of function documentation, which can be viewed in your editor or in the source code.
