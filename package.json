@@ -7,7 +7,7 @@
 		"try-catch",
 		"errors"
 	],
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ahme-dev/tryresult.git"
@@ -16,21 +16,25 @@
 		"access": "public"
 	},
 	"files": [
-		"dist"
+		"*.js",
+		"*.mjs",
+		"*.d.ts"
 	],
-	"main": "./dist/index.js",
-	"module": "./dist/index.mjs",
+	"main": "./index.js",
+	"module": "./index.mjs",
 	"exports": {
-		"require": "./dist/index.js",
-		"import": "./dist/index.mjs"
+		"require": "./index.js",
+		"import": "./index.mjs"
 	},
-	"types": "./dist/index.d.ts",
+	"types": "./index.d.ts",
 	"scripts": {
 		"build-fast": "tsup src --format cjs,esm",
 		"build": "pnpm run build-fast --dts",
+		"copy-files": "cp dist/*.js dist/*.mjs dist/*.d.ts .",
+		"clean": "rm -f *.js *.mjs *.d.ts",
 		"test": "vitest run",
 		"size": "size-limit",
-		"prepublishOnly": "pnpm run build"
+		"prepublishOnly": "pnpm run clean && pnpm run build && pnpm run copy-files"
 	},
 	"size-limit": [
 		{

@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-pnpm-store
         with:
@@ -71,7 +71,9 @@ jobs:
             ${{ runner.os }}-
       - run: npm i -g pnpm
       - run: pnpm i
-      - run: pnpm run prepublishOnly
+      - run: pnpm run clean || true
+      - run: pnpm run build
+      - run: pnpm run copy-files
       - run: pnpm dlx semantic-release@20 --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

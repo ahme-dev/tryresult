@@ -1,0 +1,10 @@
+src/
+test/
+.github/
+biome.json
+renovate.json
+tsconfig.json
+dist/
+*.config.js
+*.config.ts
+*.log
