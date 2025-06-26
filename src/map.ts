@@ -34,7 +34,7 @@ export function mapOk<T, U, E>(
 
 /**
  * Maps the error of a Result, while leaving a successful Result unchanged.
- * You can provide a custom mapper, or use @link `mapErrToError` or `mapErrToString`.
+ * You can provide a custom mapper, or use {@link mapErrToError} or {@link mapErrToString}.
  * @param result The Result to map.
  * @param fn The mapping function for the error.
  * @returns A new Result with the mapped error or the original value.
@@ -70,7 +70,7 @@ export function mapErr<T, E, F>(
 //
 
 /**
- * Maps an error to an Error object. To be used with @link `mapErr`.
+ * Maps an error to an Error object. To be used with {@link mapErr}.
  * If the error is already an Error, it returns it unchanged.
  * If the error is a string, it creates a new Error with that string.
  * If the error is an object, it converts it to a JSON string and creates a new Error.
@@ -103,7 +103,7 @@ export function mapErrToError<E>(error: E): Error {
 }
 
 /**
- * Maps an error to a string representation. To be used with @link `mapErr`.
+ * Maps an error to a string representation. To be used with {@link mapErr}.
  * @param error The error to map.
  * @returns A string representation of the error.
  * @example

@@ -16,7 +16,7 @@ import { err, ok, type Result } from "./result";
  * });
  * if (isErr(result)) {
  *   // result.error is unknown and must be checked
- *   // you can check @link `mapErr` for easier error mapping
+ *   you can check `mapErr` for easier error mapping
  * 	 // or just use `tryFn` to auto convert thrown values to Error
  *   if (result.error instanceof Error) {
  *     console.error("An error occurred:", result.error.message);
@@ -49,7 +49,7 @@ export function tryUnknownFn<T, E = unknown>(
 
 /**
  * Run a function, catching whatever's thrown and return a Result.
- * Note that this function will change thrown values to Error type. If you'd prefer to explicitly map errors, use @link `tryUnknownFn`.
+ * Note that this function will change thrown values to Error type. If you'd prefer to explicitly map errors, use {@link `tryUnknownFn`}.
  *  If the function throws an error, it will be caught and set as an Error under Err.
  *  If the function returns a value, it will be set as Ok.
  * @param fn function to run (sync or async)
