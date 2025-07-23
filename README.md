@@ -1,5 +1,5 @@
-![NPM bundle size](https://img.shields.io/bundlephobia/min/tryresult?color=royalblue)
-![npm](https://img.shields.io/npm/v/tryresult?label=version&color=royalblue)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/tryresult)
+![npm](https://img.shields.io/npm/v/tryresult?label=version)
 ![npm](https://img.shields.io/npm/dm/tryresult?color=gold)
 
 # 📛 TryResult
@@ -8,7 +8,7 @@ A tiny typescript library to get rid of try catches, and replace them with resul
 
 ![preview picture](./preview.png)
 
-Under 400 bytes and with no dependencies, TryResult only provides you with more elegant error handling and gives you functions that act as wrappers and catch errors in your own functions.
+Under 650 bytes (minified and gzipped) and with no dependencies, TryResult only provides you with more elegant error handling and gives you functions that act as wrappers and catch errors in your own functions.
 
 ## Install
 

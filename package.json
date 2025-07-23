@@ -24,12 +24,12 @@
 	"exports": {
 		".": {
 			"import": {
-				"default": "./dist/index.js",
-				"types": "./dist/index.d.ts"
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
 			},
 			"require": {
-				"default": "./dist/index.cjs",
-				"types": "./dist/index.d.ts"
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.cjs"
 			}
 		}
 	},
@@ -47,6 +47,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@biomejs/biome": "2.0.5",
+		"@size-limit/esbuild-why": "^11.2.0",
 		"@size-limit/preset-small-lib": "^11.2.0",
 		"@types/node": "^20.2.1",
 		"size-limit": "^11.2.0",
