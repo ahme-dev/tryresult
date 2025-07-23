@@ -116,10 +116,7 @@ export function okOrThrow<T, E>(result: Result<T, E>): T {
 	if (isOk(result)) {
 		return result.value;
 	}
-	if (isErr(result)) {
-		throw result.error;
-	}
-	throw new Error("Invalid result type");
+	throw (result as unknown as { _tag: "Err"; error: E }).error;
 }
 
 /**
@@ -176,8 +173,5 @@ export function match<T, E, U>(
 	if (isOk(result)) {
 		return handlers.ok(result.value);
 	}
-	if (isErr(result)) {
-		return handlers.err(result.error);
-	}
-	throw new Error("Invalid result type");
+	return handlers.err((result as unknown as { _tag: "Err"; error: E }).error);
 }

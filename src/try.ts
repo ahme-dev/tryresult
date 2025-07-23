@@ -1,4 +1,4 @@
-import { err, ok, type Result } from "./result";
+import { err, isErr, ok, type Result } from "./result";
 
 /**
  * Run a function, catching whatever's thrown and return a Result.
@@ -35,13 +35,11 @@ export function tryUnknownFn<T, E = unknown>(
 	fn: () => T | Promise<T>,
 ): Result<T, E> | Promise<Result<T, E>> {
 	try {
-		const result = fn();
-		if (result instanceof Promise) {
-			return result
-				.then((value) => ok(value))
-				.catch((error) => err(error as E));
+		const r = fn();
+		if (r instanceof Promise) {
+			return r.then((value) => ok(value)).catch((error) => err(error as E));
 		}
-		return ok(result as T);
+		return ok(r as T);
 	} catch (error) {
 		return err(error as E);
 	}
@@ -75,31 +73,27 @@ export function tryFn<T, E = Error>(fn: () => T): Result<T, E>;
 export function tryFn<T, E = Error>(
 	fn: () => T | Promise<T>,
 ): Result<T, E> | Promise<Result<T, E>> {
-	const result = tryUnknownFn(fn);
+	const r = tryUnknownFn(fn);
 
-	if (result instanceof Promise) {
-		return result.then((res) => {
-			if (res._tag === "Ok") {
-				return res;
-			}
-			if (res._tag === "Err") {
+	if (r instanceof Promise) {
+		return r.then((res) => {
+			if (isErr(res)) {
 				if (res.error instanceof Error) {
 					return err(res.error as E);
 				}
 				return err(new Error(String(res.error)) as E);
 			}
+
 			return res;
 		});
 	}
 
-	if (result._tag === "Ok") {
-		return result as Result<T, E>;
-	}
-	if (result._tag === "Err") {
-		if (result.error instanceof Error) {
-			return err(result.error as E);
+	if (isErr(r)) {
+		if (r.error instanceof Error) {
+			return err(r.error as E);
 		}
-		return err(new Error(String(result.error)) as E);
+		return err(new Error(String(r.error)) as E);
 	}
-	return result as Result<T, E>;
+
+	return r as Result<T, E>;
 }
