@@ -63,7 +63,7 @@ export function err<E>(error: E): Result<never, E> {
  */
 export function isOk<T, E>(
 	result: Result<T, E>,
-): result is { _tag: "Ok"; value: T } {
+): result is Extract<Result<T, E>, { _tag: "Ok" }> {
 	return result._tag === "Ok";
 }
 
@@ -90,7 +90,7 @@ export function isOk<T, E>(
  */
 export function isErr<T, E>(
 	result: Result<T, E>,
-): result is { _tag: "Err"; error: E } {
+): result is Extract<Result<T, E>, { _tag: "Err" }> {
 	return result._tag === "Err";
 }
 
